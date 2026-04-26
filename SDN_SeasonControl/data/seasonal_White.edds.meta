@@ -1,0 +1,16 @@
+MetaFileClass {
+ Name "{17CDEF6D90C218F3}seasonal_White.edds"
+ Author "desktop-1m4fvlp"
+ ChangeDate -2026146738
+ Configurations {
+  PNGResourceClass PC {
+   SourceFile "seasonal_White.png"
+  }
+  PNGResourceClass XBOX_ONE : PC {
+  }
+  PNGResourceClass PS4 : PC {
+  }
+  PNGResourceClass LINUX : PC {
+  }
+ }
+}

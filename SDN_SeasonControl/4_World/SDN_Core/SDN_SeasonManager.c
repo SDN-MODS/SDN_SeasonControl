@@ -1,14 +1,14 @@
 // ============================================================================
 // MOD: SDN_SeasonControl (Client-Side)
 // ARQUIVO: SDN_SeasonManager.c
-// DESCRIÇÃO: Manager Central. Depende do SDN_ServerModule para validação.
+// DESCRIO: Manager Central. Depende do SDN_ServerModule para validacao.
 // ============================================================================
 
 class SDN_SeasonManager
 {
     private static ref SDN_SeasonManager m_Instance;
 
-    // --- VARIÁVEL DE SEGURANÇA (DRM) ---
+    // --- VARIVEL DE SEGURANCA (DRM) ---
     // Controlada pela resposta do SDN_LicenseValidator
     protected bool m_IsLicensed;
 
@@ -17,7 +17,7 @@ class SDN_SeasonManager
     protected const string SDN_SOUND = "SDN_SeasonControl\\Sounds\\Sound01.ogg";
     protected const int SDN_COLOR = -23296;
 
-    // --- DADOS E CONFIGURAÇÃO ---
+    // --- DADOS E CONFIGURAO ---
     protected ref SDN_SeasonConfig m_Config;
     protected ref SDN_SeasonSaveData m_Data;
 
@@ -33,7 +33,7 @@ class SDN_SeasonManager
     protected float m_NotificationAccumulator;
     protected int m_CurrentNotificationIndex;
 
-    // --- VARIÁVEIS CLIENTE ---
+    // --- VARIVEIS CLIENTE ---
     protected int m_ClientCurrentSeasonIndex;
     protected ref SDN_SeasonSettings m_ClientCurrentSettings;
     protected int m_ClientStartTimestamp;
@@ -53,7 +53,7 @@ class SDN_SeasonManager
         m_NotificationAccumulator = 0.0;
         m_CurrentNotificationIndex = 0;
 
-        // Inicia bloqueado até a validação no Init
+        // Inicia bloqueado at a validacao no Init
         m_IsLicensed = false;
     }
 
@@ -67,14 +67,14 @@ class SDN_SeasonManager
     }
 
     // ========================================================================
-    // INICIALIZAÇÃO E PONTE DE SEGURANÇA
+    // INICIALIZACAO E PONTE DE SEGURANCA
     // ========================================================================
 
     void Init()
     {
         if (GetGame().IsServer())
         {
-            // CHAMADA PARA A PONTE DE SEGURANÇA (NOVO MOTOR)
+            // CHAMADA PARA A PONTE DE SEGURANCA (NOVO MOTOR)
             if (!SDN_LicenseValidator.IsLicenseValid("SDN_SeasonControl"))
             {
                 Print("[SDN MANAGER] ===================================================");
@@ -85,15 +85,15 @@ class SDN_SeasonManager
 
                 m_IsLicensed = false;
 
-                // Força o desligamento imediato (Kill Switch Local)
+                // Forca o desligamento imediato (Kill Switch Local)
                 GetGame().RequestExit(0);
                 return;
             }
 
-            // Se passou pela ponte, o mod está autorizado
+            // Se passou pela ponte, o mod esta autorizado
             m_IsLicensed = true;
 
-            // INICIALIZAÇÃO DOS SISTEMAS
+            // INICIALIZACAO DOS SISTEMAS
             InitLogging();
 
             GetGame().GetWeather().MissionWeather(false);
@@ -179,7 +179,7 @@ class SDN_SeasonManager
             return;
         }
 
-        // Proteção: Se não estiver licenciado, o timer não faz nada
+        // Proteo: Se no estiver licenciado, o timer no faz nada
         if (!m_IsLicensed)
         {
             return;
@@ -205,7 +205,7 @@ class SDN_SeasonManager
     }
 
     // ========================================================================
-    // SISTEMA DE NOTIFICAÇÕES
+    // SISTEMA DE NOTIFICAES
     // ========================================================================
 
     void TriggerSeasonNotification()
@@ -299,7 +299,7 @@ class SDN_SeasonManager
     }
 
     // ========================================================================
-    // LÓGICA DE ESTAÇÃO E TEMPO
+    // LOGICA DE ESTACAO E TEMPO
     // ========================================================================
 
     int GetTimestamp()
@@ -420,7 +420,7 @@ class SDN_SeasonManager
 
     void AdvanceSeason()
     {
-        // Proteção extra
+        // Proteo extra
         if (!m_IsLicensed)
         {
             return;
@@ -446,7 +446,7 @@ class SDN_SeasonManager
 
     void ForceSeasonIndex(int index)
     {
-        // Proteção extra
+        // Proteo extra
         if (!m_IsLicensed)
         {
             return;
@@ -506,7 +506,7 @@ class SDN_SeasonManager
     }
 
     // ========================================================================
-    // APLICAÇÃO DE AMBIENTE (LUA, CLIMA, INTERPOLAÇÃO)
+    // APLICACAO DE AMBIENTE (LUA, CLIMA, INTERPOLAO)
     // ========================================================================
 
     void ApplyDateAndMoon()
@@ -587,7 +587,7 @@ class SDN_SeasonManager
             smoothTime = 0.0;
         }
 
-        // Obtém valores interpolados (transição suave)
+        // Obtm valores interpolados (transio suave)
         float tOvcMin = Math.Clamp(GetInterpolatedValue("OvercastMin"), 0.0, 1.0);
         float tOvcMax = Math.Clamp(GetInterpolatedValue("OvercastMax"), 0.0, 1.0);
         float tWind = Math.Clamp(GetInterpolatedValue("WindLevel"), 0.0, 1.0);
@@ -616,7 +616,7 @@ class SDN_SeasonManager
             isRaining = true;
         }
 
-        // --- APLICAÇÃO ---
+        // --- APLICACAO ---
 
         // 1. Nuvens (Overcast)
         weather.GetOvercast().SetLimits(0.0, 1.0);
@@ -671,7 +671,7 @@ class SDN_SeasonManager
 
         if (isRaining)
         {
-            // Se for Inverno (Index 3), força céu nublado total para neve
+            // Se for Inverno (Index 3), fora cu nublado total para neve
             if (m_Data.CurrentSeasonIndex == 3)
             {
                 weather.GetOvercast().Set(1.0, smoothTime);
@@ -836,7 +836,7 @@ class SDN_SeasonManager
             val = curr.SmoothTime;
         }
 
-        // Lógica de Interpolação (Se estivermos no período de transição)
+        // Lgica de Interpolao (Se estivermos no perodo de transio)
         if (GetGame().IsServer())
         {
             float lerp = GetTransitionFactor();
@@ -920,7 +920,7 @@ class SDN_SeasonManager
                     nextVal = next.SmoothTime;
                 }
 
-                // Calcula o valor intermediário
+                // Calcula o valor intermediario
                 val = Math.Lerp(val, nextVal, lerp);
             }
         }
@@ -1047,7 +1047,7 @@ class SDN_SeasonManager
             return;
         }
 
-        // Bloqueio de Sincronização se não estiver licenciado
+        // Bloqueio de Sincronizao se no estiver licenciado
         if (!m_IsLicensed)
         {
             return;
@@ -1069,7 +1069,7 @@ class SDN_SeasonManager
 
     void SyncToAllClients()
     {
-        // Bloqueio de Sincronização
+        // Bloqueio de Sincronizao
         if (!m_IsLicensed)
         {
             return;
@@ -1147,7 +1147,7 @@ class SDN_SeasonManager
             return true;
         }
 
-        // Se a licença não for válida, permite todos os animais (padrão vanilla)
+        // Se a licena no for vlida, permite todos os animais (padro vanilla)
         if (!m_IsLicensed)
         {
             return true;

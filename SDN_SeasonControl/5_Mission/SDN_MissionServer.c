@@ -1,9 +1,9 @@
 // ============================================================================
 // PASTA: 5_Mission
 // ARQUIVO: SDN_MissionServer.c
-// EXECUÇÃO: Server
-// DESCRIÇÃO: Comandos Admin e Hooks de Conexão.
-// ATUALIZAÇÃO: Código totalmente expandido (Zero One-Liners).
+// EXECUCAO: Server
+// DESCRICAO: Comandos Admin e Hooks de Conexao.
+// ATUALIZAO: Cdigo totalmente expandido (Zero One-Liners).
 // ============================================================================
 
 modded class MissionServer
@@ -19,7 +19,7 @@ modded class MissionServer
 
         Print("[SDN] Inicializando Mod...");
 
-        // Garante a inicialização do Manager
+        // Garante a inicializao do Manager
         if (SDN_SeasonManager.GetInstance())
         {
             SDN_SeasonManager.GetInstance().Init();
@@ -40,7 +40,7 @@ modded class MissionServer
             MakeDirectory(SDN_Consts.BASE_DIR);
         }
 
-        // Cria o arquivo se não existir
+        // Cria o arquivo se no existir
         if (!FileExist(SDN_Consts.ADMIN_FILE))
         {
             FileHandle file = OpenFile(SDN_Consts.ADMIN_FILE, FileMode.WRITE);
@@ -52,7 +52,7 @@ modded class MissionServer
             return;
         }
 
-        // Lê os admins
+        // L os admins
         FileHandle f = OpenFile(SDN_Consts.ADMIN_FILE, FileMode.READ);
         if (f != 0)
         {
@@ -61,8 +61,8 @@ modded class MissionServer
             {
                 line.Trim();
 
-                // Ignora linhas vazias e comentários
-                if (line.Length() > 0 && line[0] != '/')
+                // Ignora linhas vazias e comentarios
+                if (line.Length() > 0 && line.Substring(0, 1) != "/")
                 {
                     m_SDN_Admins.Insert(line);
                 }
@@ -115,10 +115,10 @@ modded class MissionServer
 
         string message = chatParams.param3;
 
-        // Verifica se é um comando (inicia com !)
+        // Verifica se  um comando (inicia com !)
         if (message.IndexOf("!") == 0)
         {
-            // Busca a identidade pelo nome (param2), pois param1 é int no chat event
+            // Busca a identidade pelo nome (param2), pois param1  int no chat event
             string playerName = chatParams.param2;
             PlayerIdentity sender = GetPlayerIdentityByName(playerName);
 
@@ -184,7 +184,7 @@ modded class MissionServer
 
             if (action == "status")
             {
-                // Envia relatório com temperatura real
+                // Envia relatorio com temperatura real
                 manager.SendStatusReport(sender);
             }
             else if (action == "next")
@@ -237,8 +237,8 @@ modded class MissionServer
             // Sincroniza dados iniciais (Delay curto 2s) para garantir que o cliente receba
             GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.SyncSeasonToPlayer, 2000, false, identity);
 
-            // Agenda a Notificação de Boas Vindas
-            // Usa CallLater para chamar a função ScheduleWelcome, que vai ler a config de tempo
+            // Agenda a Notificao de Boas Vindas
+            // Usa CallLater para chamar a funcao ScheduleWelcome, que vai ler a config de tempo
             GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.ScheduleWelcome, 5000, false, identity);
         }
     }
@@ -256,7 +256,7 @@ modded class MissionServer
         SDN_SeasonManager manager = SDN_SeasonManager.GetInstance();
         if (manager)
         {
-            // Agenda a notificação real baseada no tempo do JSON
+            // Agenda a notificao real baseada no tempo do JSON
             manager.ScheduleWelcomeNotification(identity);
         }
     }

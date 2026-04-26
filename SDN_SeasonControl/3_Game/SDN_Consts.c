@@ -1,1 +1,28 @@
+// ============================================================================
+// PASTA: 3_Game
+// ARQUIVO: SDN_Consts.c
+// CAMADA: 3_Game
+// EXECUÇÃO: Shared
+// DESCRIÇÃO:
+// Definições de constantes globais, IDs de RPC e Enums para o sistema de estações.
+// ============================================================================
 
+enum SDN_SeasonEnum
+{
+    SPRING = 0,
+    SUMMER = 1,
+    AUTUMN = 2,
+    WINTER = 3
+}
+
+class SDN_Consts
+{
+    // Caminhos de Arquivo
+    static const string CONFIG_DIR = "$profile:SDN_SeasonControl";
+    static const string CONFIG_FILE = "$profile:SDN_SeasonControl/SeasonConfig.json";
+    static const string SAVE_FILE = "$profile:SDN_SeasonControl/SeasonState.json";
+
+    // RPC IDs (Certifique-se que não conflitem com outros mods se não usar Frameworks de RPC automático)
+    static const int RPC_SYNC_SEASON_DATA = 894710;
+    static const int RPC_ADMIN_CMD_RES = 894711;
+}

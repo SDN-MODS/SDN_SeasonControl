@@ -18,9 +18,12 @@ enum SDN_SeasonEnum
 class SDN_Consts
 {
     // Caminhos de Arquivo
-    static const string CONFIG_DIR = "$profile:SDN_SeasonControl";
-    static const string CONFIG_FILE = "$profile:SDN_SeasonControl/SeasonConfig.json";
-    static const string SAVE_FILE = "$profile:SDN_SeasonControl/SeasonState.json";
+    static const string MODS_DIR = "$profile:SDN_MODS";
+    static const string BASE_DIR = "$profile:SDN_MODS/SDN_SeasonControl";
+    static const string CONFIG_FILE = "$profile:SDN_MODS/SDN_SeasonControl/SeasonConfig.json";
+    static const string SAVE_FILE = "$profile:SDN_MODS/SDN_SeasonControl/SeasonState.json";
+    static const string LOG_DIR = "$profile:SDN_MODS/SDN_SeasonControl/Logs";
+    static const string ADMIN_FILE = "$profile:SDN_MODS/SDN_SeasonControl/Admins.txt";
 
     // RPC IDs (Certifique-se que não conflitem com outros mods se não usar Frameworks de RPC automático)
     static const int RPC_SYNC_SEASON_DATA = 894710;

@@ -1,16 +1,11 @@
 // ============================================================================
 // PASTA: 4_World/SDN_Entities
 // ARQUIVO: SDN_ItemBase.c
-// CAMADA: 4_World
-// EXECUÇÃO: Server
-// DESCRIÇÃO:
-// Controle de apodrecimento de comida (Edible_Base).
-// Lógica de roupas removida (está no PlayerBase).
+// DESCRIÇÃO: Controle de apodrecimento de comida via SDN_SeasonManager.
 // ============================================================================
 
 modded class Edible_Base
 {
-    // Intercepta o processamento de decomposição (Rotten)
     override void ProcessDecay(float delta, bool hasRootAsPlayer)
     {
         if (GetGame().IsServer())
@@ -18,12 +13,9 @@ modded class Edible_Base
             SDN_SeasonManager manager = SDN_SeasonManager.GetInstance();
             if (manager)
             {
-                float decayMult = manager.GetFoodDecayMultiplier();
-                
-                // Aplica o multiplicador do JSON
-                // Se decayMult > 1.0 (Verão), estraga mais rápido.
-                // Se decayMult < 1.0 (Inverno), preserva.
-                delta = delta * decayMult;
+                // Uso do novo sistema de ENUM para performance
+                float decayMult = manager.GetInterpolatedValue(ESDN_SeasonParam.FOOD_DECAY);
+                delta *= decayMult;
             }
         }
 
